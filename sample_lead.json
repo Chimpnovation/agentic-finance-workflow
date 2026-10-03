@@ -1,0 +1,8 @@
+{
+  "name": "Maria Example",
+  "business_name": "Sunrise Tacos LLC",
+  "monthly_revenue": 14500,
+  "monthly_payment": 1650,
+  "bank_verified": true,
+  "id_verified": true
+}
