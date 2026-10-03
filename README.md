@@ -2,30 +2,42 @@
 
 A small, transparent prototype showing how specialized agents can prepare a finance lead for human review.
 
-## Workflow
+## V2 workflow
 
-**Lead → Intake Agent → Verification Agent → Risk-Prep Agent → Human Review**
+**Lead → Intake Agent → Verification Agent → AI Underwriting-Prep Agent → Human Review**
 
 - **Intake Agent** checks whether required information is present.
 - **Verification Agent** checks simulated ID and bank-verification signals.
-- **Risk-Prep Agent** calculates a simple affordability proxy, surfaces flags, and prepares the case.
+- **AI Underwriting-Prep Agent** uses an OpenAI model to summarize the fictional case, surface observations and prepare questions.
 - **Human Review** remains responsible for any actual credit decision.
+
+The AI agent is deliberately prevented from approving or declining credit, assigning a credit score, or setting lending terms.
 
 ## Why this project exists
 
 The project explores how agentic systems can reduce repetitive operational work in asset finance while preserving human oversight for consequential decisions.
 
-This first version deliberately uses deterministic Python rather than an LLM API. That makes the workflow easy to inspect, test, and understand. Individual agents can later be replaced by model-powered agents without changing the overall architecture.
+V1 used deterministic Python only. V2 introduces a real model-powered agent while keeping deterministic intake, verification and arithmetic outside the model.
 
-## Run it
+## Run V2 locally
 
-Requires Python 3.10+ and no external packages.
+Requires Python 3.10+.
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+export OPENAI_API_KEY="your-key-here"
 python app.py
 ```
 
-The program reads `data/sample_lead.json` and prints the structured workflow result.
+Never commit your API key. The repository's `.gitignore` excludes `.env`.
+
+You can optionally choose another compatible model:
+
+```bash
+export OPENAI_MODEL="gpt-5-mini"
+```
 
 ## Example architecture
 
@@ -39,7 +51,7 @@ Customer / Lead
 Verification Agent
       |
       v
- Risk-Prep Agent
+AI Underwriting-Prep Agent
       |
       v
  HUMAN REVIEW
@@ -51,7 +63,7 @@ This is an educational prototype using fictional data. It does **not** approve o
 
 ## Next versions
 
-- LLM-powered intake from unstructured messages
+- unstructured lead intake
 - document extraction
 - tool calling
 - audit trail and agent observability
